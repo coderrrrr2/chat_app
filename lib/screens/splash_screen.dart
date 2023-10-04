@@ -6,12 +6,8 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
-      body: Center(
-        child: Image.asset(
-          'assets/images/chat.png',
-          width: 200,
-          height: 200,
-        ),
+      body: const Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }

@@ -1,4 +1,9 @@
+import 'dart:developer';
+
+import 'package:chat_app/widgets/chat_message.dart';
+import 'package:chat_app/widgets/new_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -9,6 +14,19 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  void setPushNotificatons() {
+    final fcm = FirebaseMessaging.instance;
+    fcm.requestPermission();
+    final userToken = fcm.getToken();
+    fcm.subscribeToTopic('chat');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setPushNotificatons();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +43,12 @@ class _ChatScreenState extends State<ChatScreen> {
               ))
         ],
       ),
-      body: const Center(child: Text("logged in")),
+      body: const Column(
+        children: [
+          Expanded(child: ChatMessage()),
+          NewMessage(),
+        ],
+      ),
     );
   }
 }
